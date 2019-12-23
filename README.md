@@ -1,11 +1,10 @@
-# InfluxDB Service
+# InfluxDB Agent
 
-## Usage
+## General
 
 All response will have the form
 
-```
-json
+```json
 {
     "data": "Mixed type holding the content of the response",
     "message": "Description of what happened"
@@ -13,7 +12,14 @@ json
 ```
 Subsequent response definitions will only detail the expected value of the `data field`
 
-### list all avaiable series
+### list of entry points
+Series: `METHOD /api/v1/series`
+
+Moisture: `METHOD /api/v1/moisture`
+
+Temperature: `METHOD /api/v1/temperature`
+
+## Series Usage
 
 **Definition**
 `GET /api/v1/series/list`
@@ -21,8 +27,7 @@ Subsequent response definitions will only detail the expected value of the `data
 **Response**
 - `200 OK` on success
 
-```
-json
+```json
 [
     {
         "identifier": "temperature",
@@ -34,6 +39,32 @@ json
     }
 ]
 ```
+
+## Moisture Usage
+
+
+`POST /api/v1/moisture/add`
+
+**Definition**
+Add a data point to the moisture measurement
+
+**Payload**
+```json
+{
+    "sensor": "sensor name for tagging",
+    "reading": "sensor reading"
+}
+```
+
+**Response**
+- `200 OK` on success
+
+
+`GET /api/v1/moisture/list/:limit/:sensor`
+
+**Defnition**
+Fetch a list of moisture datapoint. By default, return value is limit to 10 data point. 
+
 
 
 
