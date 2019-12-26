@@ -19,7 +19,7 @@ Moisture: `METHOD /api/v1/moisture`
 
 Temperature: `METHOD /api/v1/temperature`
 
-## Series Usage
+### Series Usage
 
 **Definition**
 `GET /api/v1/series/list`
@@ -40,7 +40,7 @@ Temperature: `METHOD /api/v1/temperature`
 ]
 ```
 
-## Moisture Usage
+### Moisture Usage
 
 
 `POST /api/v1/moisture/add`
@@ -63,9 +63,10 @@ Add a data point to the moisture measurement
 `GET /api/v1/moisture/list/:limit/:sensor`
 
 **Defnition**
-Fetch a list of moisture datapoint. By default, return value is limit to 10 data point. 
+Fetch a list of moisture datapoint. By default, return value is limit to 10 data point.
 
+## Docker specifics
 
+**To test if the container is running**
 
-
-
+`curl localhost:49160`
