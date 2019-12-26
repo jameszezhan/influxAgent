@@ -18,6 +18,3 @@ seriesCtr.addPoint = (req, res) => {
 }
 
 module.exports = seriesCtr;
-
-
-

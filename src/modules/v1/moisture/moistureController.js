@@ -36,6 +36,3 @@ moistureCtr.addPoint = (req, res) => {
 }
 
 module.exports = moistureCtr;
-
-
-

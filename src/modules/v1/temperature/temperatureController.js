@@ -1,14 +1,38 @@
 const temperatureCtr = {};
+const temperatureInfluxModel = require('./temperatureModel');
 
 temperatureCtr.getList = (req, res) => {
-    return res.status(200).json({ message: "getting list of temperature"});
+    let limit = req.params.limit ? req.params.limit : 10;
+    let sensor = req.params.sensor ? req.params.sensor : null;
+    let query = `select * from temperature where sensor = 'sensorA' limit ${limit}`;
+    if(sensor){
+        query = `select * from temperature where sensor = '${sensor}' limit ${limit}`;
+    }
+    temperatureInfluxModel
+        .query(query)
+        .then(result => {
+            return res.status(200).json({message: "query success", data: result});
+        })
+        .catch(error => res.status(400).json({message: "request failed", data: error}))
+
+    // return res.status(200).json({ message: "getting list of temperature", data: readings});
 }
 
 temperatureCtr.addPoint = (req, res) => {
-    return res.status(200).json({ message: "writing temp point"});
+    let temperatureLevel = req.body.reading;
+    let sensor = req.body.sensor;
+    temperatureInfluxModel.writePoints([
+        {
+            measurement:"temperature",
+            tags:{
+                sensor:sensor
+            },
+            fields:{
+                temperature:temperatureLevel
+            }
+        }
+    ])
+    return res.status(200).json({ message: "wring temperature point"});
 }
 
 module.exports = temperatureCtr;
-
-
-
