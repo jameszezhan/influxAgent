@@ -5,7 +5,7 @@
   "author": "James Chen <james.chen@nyu.edu>",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node --inspect=0.0.0.0 server.js"
   },
   "dependencies": {
     "dotenv": "^8.2.0",

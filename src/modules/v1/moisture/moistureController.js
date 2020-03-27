@@ -13,7 +13,11 @@ moistureCtr.getList = (req, res) => {
         .then(result => {
             return res.status(200).json({message: "query success", data: result});
         })
-        .catch(error => res.status(400).json(error.stack))
+        .catch(error => {
+            console.log(error);
+
+            return res.status(400).json(error.stack);
+        })
 
     // return res.status(200).json({ message: "getting list of moisture", data: readings});
 }
