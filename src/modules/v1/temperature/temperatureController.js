@@ -1,5 +1,5 @@
 const temperatureCtr = {};
-const temperatureInfluxModel = require('./temperatureModel');
+const influxAgent = require('../../../influxDBAgent');
 
 temperatureCtr.getList = (req, res) => {
     let limit = req.params.limit ? req.params.limit : 10;
@@ -8,7 +8,7 @@ temperatureCtr.getList = (req, res) => {
     if(sensor){
         query = `select * from temperature where sensor = '${sensor}' limit ${limit}`;
     }
-    temperatureInfluxModel
+    influxAgent
         .query(query)
         .then(result => {
             return res.status(200).json({message: "query success", data: result});
@@ -21,7 +21,7 @@ temperatureCtr.getList = (req, res) => {
 temperatureCtr.addPoint = (req, res) => {
     let temperatureLevel = req.body.reading;
     let sensor = req.body.sensor;
-    temperatureInfluxModel.writePoints([
+    influxAgent.writePoints([
         {
             measurement:"temperature",
             tags:{

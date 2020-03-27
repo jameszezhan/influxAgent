@@ -1,5 +1,5 @@
 const moistureCtr = {};
-const moistureInfluxModel = require('./moistureModel');
+const influxAgent = require('../../../influxDBAgent');
 
 moistureCtr.getList = (req, res) => {
     let limit = req.params.limit ? req.params.limit : 10;
@@ -8,12 +8,12 @@ moistureCtr.getList = (req, res) => {
     if(sensor){
         query = `select * from moisture where sensor = '${sensor}' limit ${limit}`;
     }
-    moistureInfluxModel
+    influxAgent
         .query(query)
         .then(result => {
             return res.status(200).json({message: "query success", data: result});
         })
-        .catch(error => res.status(400).json({message: "request failed", data: error}))
+        .catch(error => res.status(400).json(error.stack))
 
     // return res.status(200).json({ message: "getting list of moisture", data: readings});
 }
@@ -21,7 +21,7 @@ moistureCtr.getList = (req, res) => {
 moistureCtr.addPoint = (req, res) => {
     let moistureLevel = req.body.reading;
     let sensor = req.body.sensor;
-    moistureInfluxModel.writePoints([
+    influxAgent.writePoints([
         {
             measurement:"moisture",
             tags:{
